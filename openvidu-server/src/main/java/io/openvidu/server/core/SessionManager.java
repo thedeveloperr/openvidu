@@ -342,7 +342,8 @@ public abstract class SessionManager {
 			try {
 				JsonObject serverMetadataJson = JsonParser.parseString(serverMetadata).getAsJsonObject();
 				String customConnectionId = serverMetadataJson.get("openviduCustomConnectionId").getAsString();
-				tokenObj.setConnectionId(customConnectionId);
+				customConnectionId = customConnectionId.replaceAll(IdentifierPrefixes.PARTICIPANT_PUBLIC_ID, "");
+				tokenObj.setConnectionId(IdentifierPrefixes.PARTICIPANT_PUBLIC_ID + customConnectionId);
 			} catch (Exception e) {
 				log.debug(
 						"Tried to parse server metadata as JSON after encountering \"openviduCustomConnectionId\" string but failed with {}: {}",
